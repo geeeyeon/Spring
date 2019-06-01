@@ -9,37 +9,45 @@ import org.springframework.stereotype.Repository;
 
 import com.example.spring02.model.shop.dto.ProductDTO;
 
-@Repository
+@Repository 
 public class ProductDAOImpl implements ProductDAO {
 
-	@Inject
+	@Inject //의존관계 주입
 	SqlSession sqlSession;
 	
 	@Override
 	public List<ProductDTO> listProduct() {
-		return sqlSession.selectList("product.list_product");
+		return sqlSession.selectList("product.product_list"); 
 	}
 
 	@Override
 	public ProductDTO detailProduct(int product_id) {
-		return sqlSession.selectOne("product.detail_product",product_id);
+		return sqlSession.selectOne(
+				"product.detail_product", product_id);  
 	}
-
+//상품정보 수정
 	@Override
 	public void updateProduct(ProductDTO dto) {
-		
+		sqlSession.update("product.update_product", dto); 
 	}
-
+//상품 레코드 삭제
+	@Override
+	public void deleteProduct(int product_id) {
+		sqlSession.delete("product.product_delete", product_id); 
+	}
+//상품 등록
 	@Override
 	public void insertProduct(ProductDTO dto) {
-		// TODO Auto-generated method stub
-
+		sqlSession.insert("product.insert", dto); 
 	}
-
+//첨부파일 이름 리턴
 	@Override
-	public String fileInfo(int product_id) {
-		// TODO Auto-generated method stub
-		return null;
+	public String fileInfo(int product_id) { 
+		return sqlSession.selectOne("product.fileInfo", product_id);
 	}
 
 }
+
+
+
+

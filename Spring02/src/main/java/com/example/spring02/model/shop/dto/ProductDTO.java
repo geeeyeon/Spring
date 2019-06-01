@@ -8,7 +8,8 @@ public class ProductDTO {
 	private int price;
 	private String description;
 	private String picture_url;
-	private MultipartFile file1;
+	private MultipartFile file1; //첨부파일
+	//getter,setter,toString() 
 	public int getProduct_id() {
 		return product_id;
 	}
@@ -52,3 +53,9 @@ public class ProductDTO {
 	}
 	
 }
+
+
+
+
+
+

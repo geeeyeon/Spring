@@ -12,3 +12,11 @@ public interface ProductService {
 	void deleteProduct(int product_id);
 	void insertProduct(ProductDTO dto);
 }
+
+
+
+
+
+
+
+

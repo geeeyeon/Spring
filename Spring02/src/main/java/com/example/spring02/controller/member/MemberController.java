@@ -17,35 +17,46 @@ import com.example.spring02.service.member.MemberService;
 @RequestMapping("/member/*")//공통적인 url mapping
 public class MemberController {
 	
-	private static final Logger logger =
-			LoggerFactory.getLogger(MemberController.class);
-	
-	@Inject
-	MemberService memberService;
-	
-	@RequestMapping("login.do")
-	public String login() {
-		return "member/login";
-	}
-	
-	@RequestMapping("login_check.do")
-	public ModelAndView login_check(@ModelAttribute MemberDTO dto, HttpSession session) {
-		String name=memberService.loginCheck(dto, session);
-		ModelAndView mav = new ModelAndView();
-		if(name!=null)
-			mav.setViewName("home");
-		else {
-			mav.setViewName("member/login");
-			mav.addObject("message","error");
+	//로깅을 위한 변수
+		private static final Logger logger=
+				LoggerFactory.getLogger(MemberController.class);
+		@Inject
+		MemberService memberService;
+		
+		@RequestMapping("address.do")
+		public String address() {
+			return "member/join";
 		}
-		return mav;
-	}
-	
-	@RequestMapping("logout.do")
-	public ModelAndView logout(HttpSession session, ModelAndView mav) {
-		memberService.logout(session);	//세션 초기화
-		mav.setViewName("member/login");//이동할 페이지의 이름
-		mav.addObject("message","logout");//변수 저장
-		return mav;
-	}
+		
+		@RequestMapping("login.do") //세부적인 url 매핑
+		public String login() {
+			return "member/login"; // login.jsp로 이동
+		}
+		
+		@RequestMapping("login_check.do")
+		public ModelAndView login_check(
+				MemberDTO dto, HttpSession session) {
+			//로그인 성공 true, 실패 false
+			boolean result=memberService.loginCheck(dto, session);
+			ModelAndView mav=new ModelAndView();
+			if(result) { //로그인 성공
+				mav.setViewName("home"); //뷰의 이름
+			}else { //로그인 실패
+				mav.setViewName("member/login");
+				//뷰에 전달할 값
+				mav.addObject("message", "error");
+			}
+			return mav;
+		}
+		
+		@RequestMapping("logout.do")
+		public ModelAndView logout(
+				HttpSession session,ModelAndView mav) {
+			//세션 초기화
+			memberService.logout(session);
+			// login.jsp로 이동
+			mav.setViewName("member/login");
+			mav.addObject("message","logout");
+			return mav;
+		}
 }
