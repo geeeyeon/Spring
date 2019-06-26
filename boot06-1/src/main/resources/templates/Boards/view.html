@@ -48,12 +48,34 @@
 			                bno = ${vo.bno}
 			             )}" class="btn btn-primary">Go List</a> 
 		</div>
+		
+		<div class='container'>
+			<table class="table table-striped table-bordered table-hover">
+				<thead>
+					<tr>
+						<th>RNO</th>
+						<th>REPLY TEXT</th>
+						<th>REPLER</th>
+						<th>REPLY DATE</th>
+					</tr>
+				</thead>
+				<tbody id="replyTable" >
+				</tbody>
+			</table>				
+		</div>
 </div>
 </div>
 <!-- end fragment -->
 
 <th:block layout:fragment="script">
+	<script th:inline="javascript" th:src="@{'/js/reply.js'}"></script>
 	<script th:inline="javascript">
+		$(document).ready(function (e){
+			//댓글 로드
+			replyManager.getAll([[${vo.bno}]], function(list){
+				console.log("list......"+list);
+			});
+		});
 	</script>
 </th:block>
 	
